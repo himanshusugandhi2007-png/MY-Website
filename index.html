@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: #8b2c3b;
+        color: #fff;
+        text-align: center;
+    }
+
+    h1 {
+        margin-top: 30px;
+        font-style: italic;
+        color: #ffd6a5;
+    }
+
+    .gallery {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 40px;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        width: 180px;
+        height: 240px;
+        background: #b44a5a;
+        border-radius: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+
+    .card span {
+        font-size: 14px;
+        color: #ffecec;
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
+
+    button {
+        background: #ffd166;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-bottom: 40px;
+    }
+
+    button:hover {
+        background: #ffb703;
+    }
+
+    
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .message-box {
+        background: #a23c4a;
+        padding: 30px;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 15px;
+    }
+
+    .message-box h2 {
+        color: #ffd6a5;
+    }
+</style>
+</head>
+
+<body>
+
+
+<h1>Mere Bete ka Birthday💛 !!</h1>
+
+<div class="gallery">
+    <div class="card" onclick="reveal(this)">
+        <span>📷 Click to reveal</span>
+        <img src="data:image/jpeg;base64,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">    </div>
+
+    <div class="card" onclick="reveal(this)">
+        <span>📷 Click to reveal</span>
+        <img src="taijas.jpeg">  </div>
+    
+<button onclick="openMessage()">Read My Message 💌</button>
+<br>
+<br>
+<br>
+<div class="popup" id="popup">
+    <div class="message-box">
+        <br><h2>A Special Message for You 💖</h2>
+        <p>
+            HAPPY BIRTHDAY TO MY AMAZING FRIEND! MAY YOUR DAY BE FILLED WITH LOVE,
+            JOY,
+            AND ALL THE THINGS THAT MAKE YOU SMILE
+        </p>
+        <br>
+        <button onclick="closeMessage()">Back to Start 💛</button>
+    </div>
+</div>
+
+<script>
+    function reveal(card) {
+        card.querySelector("span").style.display = "none";
+        card.querySelector("img").style.display = "block";
+    }
+
+    function openMessage() {
+        document.getElementById("popup").style.display = "flex";
+    }
+
+    function closeMessage() {
+        document.getElementById("popup").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
